@@ -183,6 +183,7 @@ DEPENDENCIES
   minitest-rails
   minitest-reporters
   pg (>= 0.18, < 2.0)
+  pry
   pry-rails
   puma (~> 3.11)
   rack-cors

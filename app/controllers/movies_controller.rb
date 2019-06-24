@@ -1,3 +1,5 @@
+# require "pry"
+
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
 
@@ -7,7 +9,6 @@ class MoviesController < ApplicationController
     else
       data = Movie.all
     end
-
     render status: :ok, json: data
   end
 
@@ -16,12 +17,36 @@ class MoviesController < ApplicationController
       status: :ok,
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
+        methods: [:available_inventory],
+      ),
+    )
+  end
+
+  def create
+    movie = Movie.new movie_params
+    successful = movie.save
+
+    if successful
+      render(
+        status: :ok,
+        json: movie.as_json(
+          only: [:title, :overview, :release_date, :inventory, :id],
+        ),
       )
+    else
+      render(
+        status: :bad_request,
+        json: "Could not add movie",
+      )
+    end
   end
 
   private
+
+  def movie_params
+    return params.permit(:title, :overview, :release_date, :image_url, :external_id)
+    # return params.require(:movie).permit(:title, :creator, :category, :publication_year, :description)
+  end
 
   def require_movie
     @movie = Movie.find_by(title: params[:title])
