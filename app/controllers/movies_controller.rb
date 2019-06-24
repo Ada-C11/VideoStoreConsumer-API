@@ -34,10 +34,7 @@ class MoviesController < ApplicationController
         ),
       )
     else
-      render(
-        status: :bad_request,
-        json: "Could not add movie",
-      )
+      render status: :bad_request, json: { errors: movie.errors.messages }
     end
   end
 
