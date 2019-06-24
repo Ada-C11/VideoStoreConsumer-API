@@ -22,9 +22,19 @@ class MoviesController < ApplicationController
   end
 
   def create
-    render (
-      # params will have the info for adding movie to database...
-    )
+    # This should not create another duplicate record for the given movie, 
+    # we should check if the movie's external id exists in our database
+    # if it doesn't, we 'create' (add) the movie to our library
+    # otherwise we deny the request OR we just increment inventory?
+    
+    @movie = Movie.create(movie_params) 
+
+    if @movie 
+      json_response(@movie, :created)
+    else
+      render status: :bad_request, json: { errors: 'Unable to create movie'}
+    end
+  end
 
   private
 
@@ -33,5 +43,10 @@ class MoviesController < ApplicationController
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
+  end
+
+  def movie_params
+    # allow params
+    params.permit(:title, :overview, :release_date, :inventory, :image_url, :external_id)
   end
 end
