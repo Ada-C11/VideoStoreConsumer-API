@@ -21,6 +21,11 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    render (
+      # params will have the info for adding movie to database...
+    )
+
   private
 
   def require_movie
