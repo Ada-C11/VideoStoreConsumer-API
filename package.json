@@ -20,5 +20,10 @@
     "jasmine-node": "^1.14.5",
     "nodemon": "^1.9.2",
     "request": "^2.72.0"
+  },
+  "proxy": {
+    "/": {
+      "target": "http://localhost:3002"
+    }
   }
 }
