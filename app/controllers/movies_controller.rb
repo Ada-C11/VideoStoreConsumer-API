@@ -22,14 +22,19 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = Movie.create(movie_params)
-
-    render(
-      status: :ok,
-      json: movie.as_json(
-        only: [:id, :title, :overview, :release_date, :inventory],
-      ),
-    )
+    if Movie.find_by(title: movie_params[:title])
+      render(
+        json: { ok: false, errors: "movie already exists in library" },
+      )
+    else
+      movie = Movie.create(movie_params)
+      render(
+        status: :ok,
+        json: movie.as_json(
+          only: [:id, :title, :overview, :release_date, :inventory],
+        ),
+      )
+    end
   end
 
   private
