@@ -4,6 +4,13 @@ class MoviesController < ApplicationController
   def index
     if params[:query]
       data = MovieWrapper.search(params[:query])
+      if data != []
+        data.each do |movie|
+          if !Movie.find_by(title: movie.title)
+            movie.save!
+          end
+        end
+      end
     else
       data = Movie.all
     end
