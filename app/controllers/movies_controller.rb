@@ -5,7 +5,7 @@ class MoviesController < ApplicationController
     if params[:query]
       data = MovieWrapper.search(params[:query])
     else
-      data = Movie.all
+      data = Movie.all.order(id: :desc)
     end
 
     render status: :ok, json: data
@@ -23,7 +23,7 @@ class MoviesController < ApplicationController
 
   def create
 
-    movie = Movie.new(title: params[:title], external_id: params[:external_id], release_date: params[:release_date], overview: params[:overview])
+    movie = Movie.new(title: params[:title], external_id: params[:external_id], release_date: params[:release_date], overview: params[:overview], image_url: params[:image_url])
 
     if movie.save
       render json: movie.as_json(only: %i[title overview release_date id image_url external_id]), status: :ok
