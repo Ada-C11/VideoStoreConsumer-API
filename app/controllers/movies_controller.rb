@@ -4,9 +4,6 @@ class MoviesController < ApplicationController
   def index
     if params[:query]
       data = MovieWrapper.search(params[:query])
-<<<<<<< HEAD
-      # check if "data" exists in database; if it doesn't, save it and check if database updated
-=======
       if data != []
         data.each do |movie|
           if !Movie.find_by(title: movie.title)
@@ -14,7 +11,6 @@ class MoviesController < ApplicationController
           end
         end
       end
->>>>>>> 12e3cc99d5b41b05bc179a8bc709b6237446c2e2
     else
       data = Movie.all
     end
@@ -27,9 +23,31 @@ class MoviesController < ApplicationController
       status: :ok,
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
-      )
+        methods: [:available_inventory],
+      ),
+    )
+  end
+
+  def create
+    movie = Movie.new(
+      title: params[:title],
+      overview: params[:overview],
+      release_date: params[:release_date],
+      image_url: params[:image_url],
+      external_id: params[:external_id],
+      inventory: 1,
+    )
+
+    if !Movie.find_by(title: movie.title)
+      if movie.save!
+        render status: :ok, json: {}
+      else
+        render status: :bad_request, json: { errors: movie.errors.messages }
+      end
+    else
+      # currently not returning anything if movie is already in database. return message?
+      # or do we want uniqueness to be in validation?
+    end
   end
 
   private
