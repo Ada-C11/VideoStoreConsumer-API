@@ -24,6 +24,7 @@ class MoviesController < ApplicationController
   def create
     if Movie.find_by(external_id: movie_params[:external_id])
       render(
+        status: :conflict,
         json: { ok: false, errors: "Movie already exists in library" },
       )
     else
