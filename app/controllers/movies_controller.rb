@@ -22,19 +22,14 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = Movie.new(movie_params)
-    is_successful = movie.save
+    movie = Movie.create(movie_params)
 
-    if is_successful
-      render(
-        status: :ok,
-        json: movie.as_json(
-          only: [:id, :title, :overview, :release_date, :inventory],
-        ),
-      )
-    else
-      render json: { ok: false, errors: movie.errors.messages }, status: :bad_request
-    end
+    render(
+      status: :ok,
+      json: movie.as_json(
+        only: [:id, :title, :overview, :release_date, :inventory],
+      ),
+    )
   end
 
   private
