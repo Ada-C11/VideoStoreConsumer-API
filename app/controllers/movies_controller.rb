@@ -22,9 +22,9 @@ class MoviesController < ApplicationController
   end
 
   def create
-    if Movie.find_by(title: movie_params[:title])
+    if Movie.find_by(external_id: movie_params[:external_id])
       render(
-        json: { ok: false, errors: "movie already exists in library" },
+        json: { ok: false, errors: "Movie already exists in library" },
       )
     else
       movie = Movie.create(movie_params)
