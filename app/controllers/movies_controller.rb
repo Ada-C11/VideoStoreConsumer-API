@@ -4,6 +4,7 @@ class MoviesController < ApplicationController
   def index
     if params[:query]
       data = MovieWrapper.search(params[:query])
+      # check if "data" exists in database; if it doesn't, save it and check if database updated
     else
       data = Movie.all
     end
