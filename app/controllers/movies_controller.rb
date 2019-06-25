@@ -26,13 +26,15 @@ class MoviesController < ApplicationController
     # we should check if the movie's external id exists in our database
     # if it doesn't, we 'create' (add) the movie to our library
     # otherwise we deny the request OR we just increment inventory?
-    
+    errors = {}
+
     @movie = Movie.create(movie_params) 
 
     if @movie 
       json_response(@movie, :created)
     else
-      render status: :bad_request, json: { errors: 'Unable to create movie'}
+      errors['message'] = ["Invalid parameters given: #{movie_params}"]
+      render status: :bad_request, json: { errors: errors}
     end
   end
 
