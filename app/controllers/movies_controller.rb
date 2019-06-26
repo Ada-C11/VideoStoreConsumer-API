@@ -8,7 +8,12 @@ class MoviesController < ApplicationController
       data = Movie.all
     end
 
-    render status: :ok, json: data
+    render status: :ok, json: (data.map {
+        |movie|
+        movie.as_json(
+          only: [:id, :external_id, :title, :overview, :release_date, :inventory],
+        )
+      })
   end
 
   def show

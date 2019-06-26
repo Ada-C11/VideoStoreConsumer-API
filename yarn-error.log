@@ -1,0 +1,59 @@
+Arguments: 
+  /usr/local/Cellar/node/12.4.0/bin/node /usr/local/Cellar/yarn/1.16.0/libexec/bin/yarn.js add bootstrat
+
+PATH: 
+  /Users/shubharajan/.rvm/gems/ruby-2.5.1/bin:/Users/shubharajan/.rvm/gems/ruby-2.5.1@global/bin:/Users/shubharajan/.rvm/rubies/ruby-2.5.1/bin:/Users/shubharajan/.rvm/bin:/usr/local/opt/libxml2/bin:/usr/local/opt/openssl@1.1/bin:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:/opt/local/bin:/opt/local/sbin:/Users/shubharajan/bin/Users/shubharajan/.rvm/gems/ruby-2.5.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+
+Yarn version: 
+  1.16.0
+
+Node version: 
+  12.4.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/bootstrat: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.16.0/libexec/lib/cli.js:66091:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.16.0/libexec/lib/cli.js:129590:22)
+      at Request.emit (events.js:200:13)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.16.0/libexec/lib/cli.js:130562:10)
+      at Request.emit (events.js:200:13)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.16.0/libexec/lib/cli.js:130484:12)
+      at Object.onceWrapper (events.js:288:20)
+      at IncomingMessage.emit (events.js:205:15)
+      at endReadableNT (_stream_readable.js:1154:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:9)
+
+npm manifest: 
+  {
+    "name": "video-store-api",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+      "start": "nodemon ./bin/www",
+      "test": "clear; jasmine-node --verbose spec/"
+    },
+    "dependencies": {
+      "body-parser": "~1.13.2",
+      "cookie-parser": "~1.3.5",
+      "debug": "~2.6.9",
+      "express": "~4.13.1",
+      "jade": "~1.11.0",
+      "morgan": "~1.9.1",
+      "sequelize": "^5.1.0",
+      "serve-favicon": "~2.3.0"
+    },
+    "devDependencies": {
+      "jasmine-node": "^1.14.5",
+      "nodemon": "^1.9.2",
+      "request": "^2.72.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
