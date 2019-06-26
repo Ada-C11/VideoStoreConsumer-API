@@ -1,11 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class MoviesControllerTest < ActionDispatch::IntegrationTest
   describe "index" do
     it "returns a JSON array" do
       get movies_url
       assert_response :success
-      @response.headers['Content-Type'].must_include 'json'
+      @response.headers["Content-Type"].must_include "json"
 
       # Attempt to parse
       data = JSON.parse @response.body
@@ -46,7 +46,7 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
     it "Returns a JSON object" do
       get movie_url(title: movies(:one).title)
       assert_response :success
-      @response.headers['Content-Type'].must_include 'json'
+      @response.headers["Content-Type"].must_include "json"
 
       # Attempt to parse
       data = JSON.parse @response.body
@@ -72,7 +72,9 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
       data = JSON.parse @response.body
       data.must_include "errors"
       data["errors"].must_include "title"
-
     end
+  end
+
+  describe "create" do
   end
 end
