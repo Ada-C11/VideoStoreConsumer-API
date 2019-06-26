@@ -15,22 +15,21 @@ class MoviesController < ApplicationController
     render(
       status: :ok,
       json: @movie.as_json(
-        only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
-      )
+        only: [:id, :title, :overview, :release_date, :inventory, :image_url, :external_id],
+        methods: [:available_inventory],
+      ),
+    )
   end
 
   def create
-    @movie = Movie.new(movie_params) 
-  
+    @movie = Movie.new(movie_params)
+
     if @movie.save
-      render (status: :ok, 
-              json: @movie.as_json( 
-                only: [:title, :overview, :release_date, :inventory],
-                methods: [:available_inventory]
-              )
-      )
+      # render(status: :ok,
+      #        json: @movie.as_json(
+      #          only: [:title, :overview, :release_date, :inventory],
+      #          methods: [:available_inventory],
+      #        ))
     else
       render json: { errors: ["An error has occurred: Movie could not be saved."] },
              status: :bad_request
