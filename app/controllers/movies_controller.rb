@@ -4,6 +4,7 @@ class MoviesController < ApplicationController
   def index
     if params[:query]
       data = MovieWrapper.search(params[:query])
+      
     else
       data = Movie.all
     end
@@ -16,9 +17,30 @@ class MoviesController < ApplicationController
       status: :ok,
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
-      )
+        methods: [:available_inventory],
+      ),
+    )
+  end
+
+  def create
+    movie = Movie.new(
+      title: params[:title],
+      overview: params[:overview],
+      release_date: params[:release_date],
+      image_url: params[:image_url],
+      external_id: params[:external_id],
+      inventory: 1,
+    )
+
+    if !Movie.find_by(title: movie.title)
+      if movie.save!
+        render status: :ok, json: {}
+      else
+        render status: :bad_request, json: { errors: movie.errors.messages }
+      end
+    else
+      render status: :no_content, json: { message: "Movie already in database"}
+    end
   end
 
   private
