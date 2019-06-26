@@ -22,7 +22,11 @@ class MoviesController < ApplicationController
   end
 
   def create
-
+    if Movie.does_movie_exist(movie_params[:title])
+      render json: {errors: "movie already exists in library"},
+        status: :bad_request
+      return false
+    end
     # Rails has set up that everything that comes in from a request as query params... gets into the params object
     @movie = Movie.new(movie_params)
     puts "we're in the create function ****************************************"
@@ -30,7 +34,6 @@ class MoviesController < ApplicationController
     # How do we make sure that this new instance of movie has actually the values coming from the request ... Hm...(strong params!)
     # Traditionally, we have put this functionality of reading from the request and also some cool rails security things using Strong Params
 
-    @movie.save
 
     if @movie.save
       render json: {movie: {id: @movie.id, title: @movie.title}}, status: :ok
