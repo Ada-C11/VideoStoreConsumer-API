@@ -21,6 +21,21 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    puts "Made it!"
+    puts "Attempting to add #{params[:title]}"
+
+    movies = MovieWrapper.search(params[:title])
+
+    successful = movies[0].save
+    if successful
+      puts "#{params[:title]} Added to the library!"
+      return Movie.last.id
+    else
+      puts "FAILED TO SAVE #{params[:title]}"
+    end
+  end
+
   private
 
   def require_movie
