@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post "/rentals/:title/return", to: "rentals#check_in", as: "check_in"
   get "/rentals/overdue", to: "rentals#overdue", as: "overdue"
 
-  root 'movies#index'
+  post "/movies/add-movie", to: "movies#add_movie", as: "add_movie"
 
+  root "movies#index"
 end
