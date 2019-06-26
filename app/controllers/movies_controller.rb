@@ -24,7 +24,11 @@ class MoviesController < ApplicationController
   def add_movie
     movie = Movie.new(title: params[:title], overview: params[:overview], release_date: params[:release_date], image_url: params[:image_url], external_id: params[:external_id])
 
-    if movie.save
+    unless Movie.find_by(external_id: params[:external_id])
+      successful = movie.save
+    end
+
+    if successful
       render status: :ok, json: {}
     else
       render status: :bad_request, json: {errors: movie.errors.messages}
