@@ -4,7 +4,7 @@ class Movie < ApplicationRecord
 
   validates :title, :inventory, presence: true
 
-  validates :inventory, numericality: { only_integer: true }
+  validates :inventory, numericality: {only_integer: true}
 
   def available_inventory
     self.inventory - Rental.where(movie: self, returned: false).length
@@ -14,7 +14,7 @@ class Movie < ApplicationRecord
     orig_value = read_attribute :image_url
     if !orig_value
       MovieWrapper::DEFAULT_IMG_URL
-    elsif external_id
+    elsif !orig_value.include?("https://") && external_id
       MovieWrapper.construct_image_url(orig_value)
     else
       orig_value
