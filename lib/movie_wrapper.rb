@@ -13,7 +13,6 @@ class MovieWrapper
     if response["total_results"] == 0
       return []
     else
-      sleep(1)
       movies = response["results"].map do |result|
         self.construct_movie(result)
       end
