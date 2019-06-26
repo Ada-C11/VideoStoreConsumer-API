@@ -1,11 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class MoviesControllerTest < ActionDispatch::IntegrationTest
   describe "index" do
     it "returns a JSON array" do
       get movies_url
       assert_response :success
-      @response.headers['Content-Type'].must_include 'json'
+      @response.headers["Content-Type"].must_include "json"
 
       # Attempt to parse
       data = JSON.parse @response.body
@@ -46,7 +46,7 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
     it "Returns a JSON object" do
       get movie_url(title: movies(:one).title)
       assert_response :success
-      @response.headers['Content-Type'].must_include 'json'
+      @response.headers["Content-Type"].must_include "json"
 
       # Attempt to parse
       data = JSON.parse @response.body
@@ -72,7 +72,6 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
       data = JSON.parse @response.body
       data.must_include "errors"
       data["errors"].must_include "title"
-
     end
   end
 
@@ -86,24 +85,34 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
         external_id: 3533,
       }
     }
+
     it "should create a new movie given valid data" do
       expect {
         post movies_path(movie_params)
       }.must_change "Movie.count", 1
+
       body = JSON.parse(response.body)
+
       expect(body).must_be_kind_of Hash
       expect(body).must_include "id"
+
       movie = Movie.find(body["id"].to_i)
+
       expect(movie.title).must_equal movie_params[:title]
       must_respond_with :success
     end
+
     # #  update validations if you want to use this test
+
     # it "returns an error for invalid movie data" do
     #   movie_params[:title] = nil
+
     #   expect {
     #     post movies_path(movie_params)
     #   }.wont_change "Movie.count"
+
     #   body = JSON.parse(response.body)
+
     #   expect(body).must_be_kind_of Hash
     #   expect(body).must_include "errors"
     #   expect(body["errors"]).must_include "title"
