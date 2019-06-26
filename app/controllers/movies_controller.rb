@@ -23,14 +23,25 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = Movie.new movie_params
-    successful = movie.save
+    movie = Movie.find_by(title: params[:title])
+    if movie
+      if movie.inventory
+        movie.inventory += 1
+      else
+        move.inventory = 1
+      end
+    else
+      movie = Movie.new movie_params
+      movie.inventory = 1
+    end
 
+    successful = movie.save
+    # binding.pry
     if successful
       render(
         status: :ok,
         json: movie.as_json(
-          only: [:title, :overview, :release_date, :inventory, :id],
+          only: [:title, :overview, :release_date, :image_url, :id],
         ),
       )
     else
@@ -41,12 +52,13 @@ class MoviesController < ApplicationController
   private
 
   def movie_params
-    return params.permit(:title, :overview, :release_date, :image_url, :external_id)
+    return params.permit(:title, :overview, :release_date, :image_url, :external_id, :inventory)
     # return params.require(:movie).permit(:title, :creator, :category, :publication_year, :description)
   end
 
   def require_movie
     @movie = Movie.find_by(title: params[:title])
+    # binding.pry
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
