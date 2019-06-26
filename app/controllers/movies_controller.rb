@@ -33,7 +33,7 @@ class MoviesController < ApplicationController
       render(
         status: :ok,
         json: movie.as_json(
-          only: [:id, :title, :overview, :release_date, :inventory],
+          only: [:id, :title, :overview, :release_date, :inventory, :external_id, :image_url],
           )
         )
     else
