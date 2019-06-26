@@ -75,4 +75,24 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
 
     end
   end
+
+  describe "create" do
+    let(:movie){
+      {
+        "title" => "Steph's Movie"
+      }
+    }
+    it "creates a new movie" do
+      expect{ post movies_path, params: movie }.must_change "Movie.count", 1
+      must_respond_with :success
+
+      body = JSON.parse(response.body)
+      movie = Movie.find(body["id"].to_i)
+
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "id"
+      expect(movie.title).must_equal movie["title"]
+    end
+
+  end
 end

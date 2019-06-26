@@ -21,16 +21,23 @@ class MoviesController < ApplicationController
     )
   end
 
+
   def create
-    if params[:title]
-      data = MovieWrapper.search(params[:title])
-      movie = MovieWrapper.add_movie(data)
-      movie.save!
+    add_movie = Movie.new(movie_params)
+
+    if add_movie.save!
+      render json: {id: add_movie.id}
+    else
+      render_error :bad_request
     end
   end
 
   private
 
+  def movie_params
+    params.permit(:external_id, :title, :overview, :release_date, :inventory)
+  end
+  
   def require_movie
     @movie = Movie.find_by(title: params[:title])
     unless @movie

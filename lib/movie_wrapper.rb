@@ -20,12 +20,12 @@ class MovieWrapper
     end
   end
 
-  def self.add_movie(id)
-    url = BASE_URL + "movie/" + id + "?api_key=" + KEY
-    response = HTTParty.get(url)
-    movie = self.construct_movie(response["results"])
-    return movie
-  end
+  # def self.add_movie(id)
+  #   url = BASE_URL + "movie/" + id + "?api_key=" + KEY
+  #   response = HTTParty.get(url)
+  #   movie = self.construct_movie(response["results"])
+  #   return movie
+  # end
 
   private
 
