@@ -21,6 +21,29 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    @new_movie = Movie.new(
+      title: params[:title],
+      overview: params[:overview],
+      release_date: params[:release_date],
+      image_url: params[:iamge_url],
+      external_id: params[:external_id]
+    )
+
+    is_successful = @new_movie.save
+
+    if is_successful
+      render(
+        status: :ok,
+        json: @new_movie.as_json(
+          only: [:title, :overview, :release_date, :image_url, :external_id],
+        )
+      ) 
+    else
+      puts 'Movie was not added to Library.'
+    end
+  end
+
   private
 
   def require_movie
