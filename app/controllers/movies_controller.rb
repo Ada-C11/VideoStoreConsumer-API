@@ -12,6 +12,7 @@ class MoviesController < ApplicationController
         |movie|
         movie.as_json(
           only: [:id, :external_id, :title, :overview, :release_date, :inventory, :image_url],
+          methods: [:available_inventory],
         )
       })
   end
@@ -31,7 +32,7 @@ class MoviesController < ApplicationController
   def require_movie
     @movie = Movie.find_by(title: params[:title])
     unless @movie
-      render status: :not_found, json: {errors: {title: ["No movie with title #{params["title"]}"]}}
+      render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
   end
 end
