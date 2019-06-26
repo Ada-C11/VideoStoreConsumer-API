@@ -1,3 +1,5 @@
+require "pry"
+
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
 
@@ -21,7 +23,6 @@ class MoviesController < ApplicationController
     )
   end
 
-
   def create
     add_movie = Movie.new(movie_params)
 
@@ -37,7 +38,7 @@ class MoviesController < ApplicationController
   def movie_params
     params.permit(:external_id, :title, :overview, :release_date, :inventory)
   end
-  
+
   def require_movie
     @movie = Movie.find_by(title: params[:title])
     unless @movie
