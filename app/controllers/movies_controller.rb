@@ -22,19 +22,18 @@ class MoviesController < ApplicationController
   end
 
   def create
-    # This should not create another duplicate record for the given movie, 
-    # we should check if the movie's external id exists in our database
-    # if it doesn't, we 'create' (add) the movie to our library
-    # otherwise we deny the request OR we just increment inventory?
-    errors = {}
-
-    @movie = Movie.create(movie_params) 
-
-    if @movie 
-      json_response(@movie, :created)
+    @movie = Movie.new(movie_params) 
+  
+    if @movie.save
+      render (status: :ok, 
+              json: @movie.as_json( 
+                only: [:title, :overview, :release_date, :inventory],
+                methods: [:available_inventory]
+              )
+      )
     else
-      errors['message'] = ["Invalid parameters given: #{movie_params}"]
-      render status: :bad_request, json: { errors: errors}
+      render json: { errors: ["An error has occurred: Movie could not be saved."] },
+             status: :bad_request
     end
   end
 
