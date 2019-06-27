@@ -6,14 +6,13 @@ class Movie < ApplicationRecord
     self.inventory - Rental.where(movie: self, returned: false).length
   end
 
-  def self.does_movie_exist(title)
-    # raise
-    existingMovie = Movie.find_by(title: title)
+  def self.does_movie_exist(external_id)
+    existingMovie = Movie.find_by(external_id: external_id)
     puts "existingMovie: #{existingMovie}"
 
     if existingMovie
       existingMovie.inventory += 1
-      puts "inventory: #{existingMovie.inventory}"
+      existingMovie.save
       return true
     end
 

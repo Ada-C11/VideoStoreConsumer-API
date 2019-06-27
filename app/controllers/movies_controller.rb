@@ -22,10 +22,9 @@ class MoviesController < ApplicationController
   end
 
   def create
-    if Movie.does_movie_exist(movie_params[:title])
-      # raise
-      render json: {errors: "Movie already exists in library."},
-        status: :bad_request
+    if Movie.does_movie_exist(movie_params[:external_id])
+      render json: {errors: ["#{movie_params[:title]} already exists in library. Qty 1 added to the inventory."],
+        status: :ok}
       return
     end
     # Rails has set up that everything that comes in from a request as query params... gets into the params object
