@@ -8,8 +8,14 @@ class MoviesController < ApplicationController
       data = MovieWrapper.search(params[:query])
     else
       data = Movie.all
+      # binding.pry
     end
-    render status: :ok, json: data
+    render(
+      status: :ok,
+      json: data.as_json(
+        only: [:title, :overview, :release_date, :image_url, :id, :inventory, :external_id],
+      ),
+    )
   end
 
   def show
@@ -52,7 +58,7 @@ class MoviesController < ApplicationController
   private
 
   def movie_params
-    return params.permit(:title, :overview, :release_date, :image_url, :external_id, :inventory)
+    return params.permit(:title, :overview, :inventory, :release_date, :image_url, :external_id)
     # return params.require(:movie).permit(:title, :creator, :category, :publication_year, :description)
   end
 
