@@ -10,7 +10,7 @@ class Movie < ApplicationRecord
     orig_value = read_attribute :image_url
     if !orig_value
       MovieWrapper::DEFAULT_IMG_URL
-    elsif external_id
+    elsif external_id && !orig_value.include?("https://image.tmdb.org/t/p/")
       MovieWrapper.construct_image_url(orig_value)
     else
       orig_value

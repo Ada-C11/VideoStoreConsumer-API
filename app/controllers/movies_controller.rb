@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
     # end
 
     if already_added
-      render status: :bad_request, json: { errors: "This movie is already in the library" }
+      render status: :conflict, json: { errors: "This movie is already in the library" }
     elsif movie.save
       render status: :ok, json: {}
     else
