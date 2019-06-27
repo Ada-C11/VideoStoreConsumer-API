@@ -4,8 +4,6 @@ class Movie < ApplicationRecord
 
   validates :title, :inventory, presence: true
 
-  validates :external_id, uniqueness: true
-
   validates :inventory, numericality: { only_integer: true }
 
   def available_inventory

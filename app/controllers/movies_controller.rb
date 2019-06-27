@@ -18,7 +18,12 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = Movie.new(movie_params)
+    movie = Movie.find_by(external_id: params[:external_id])
+    if movie
+      movie.inventory = movie.inventory + params[:inventory].to_i
+    else
+      movie = Movie.new(movie_params)
+    end
     success = movie.save
 
     if success
