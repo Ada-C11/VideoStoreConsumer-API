@@ -2,12 +2,29 @@ class RentalsController < ApplicationController
   before_action :require_movie, only: [:check_out, :check_in]
   before_action :require_customer, only: [:check_out, :check_in]
 
+  def index
+    rentals = Rental.all.map do |rental|
+      if rental.returned === false
+        {
+          title: rental.movie.title,
+          customer_id: rental.customer_id,
+          name: rental.customer.name,
+          checkout_date: rental.checkout_date,
+          due_date: rental.due_date,
+        }
+      end
+    end
+    rentals.uniq!
+    render status: :ok, json: rentals
+  end
+
   # TODO: make sure that wave 2 works all the way
   def check_out
     rental = Rental.new(movie: @movie, customer: @customer, due_date: params[:due_date])
 
     if rental.save
-      render status: :ok, json: {}
+      render status: :ok, json: {rental: rental.id}
+
     else
       render status: :bad_request, json: { errors: rental.errors.messages }
     end
