@@ -16,9 +16,21 @@ class MoviesController < ApplicationController
       status: :ok,
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
-      )
+        methods: [:available_inventory],
+      ),
+    )
+  end
+
+  def create
+    movie = Movie.create(
+      title: params[:title],
+      overview: params[:overview],
+      release_date: params[:release_date],
+      inventory: 1,
+      image_url: params[:image_url],
+      external_id: params[:external_id],
+    )
+    render status: :ok, json: movie
   end
 
 
