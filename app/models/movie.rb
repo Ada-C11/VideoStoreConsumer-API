@@ -8,7 +8,6 @@ class Movie < ApplicationRecord
 
   def self.does_movie_exist(external_id)
     existingMovie = Movie.find_by(external_id: external_id)
-    puts "existingMovie: #{existingMovie}"
 
     if existingMovie
       existingMovie.inventory += 1
