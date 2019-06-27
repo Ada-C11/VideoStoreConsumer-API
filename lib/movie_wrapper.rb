@@ -10,6 +10,7 @@ class MovieWrapper
   def self.search(query)
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
     response =  HTTParty.get(url)
+    sleep(1)
     if response["total_results"] == 0
       return []
     else
@@ -19,6 +20,7 @@ class MovieWrapper
       return movies
     end
   end
+  
 
   private
 
