@@ -15,13 +15,14 @@ class MoviesController < ApplicationController
     render(
       status: :ok,
       json: @movie.as_json(
-        only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
-      )
+        only: [:id, :title, :overview, :release_date, :inventory, :image_url, :external_id],
+        methods: [:available_inventory],
+      ),
+    )
   end
 
   def create
+<<<<<<< HEAD
     @movie = Movie.find_by(params[:title]) 
 
     if !@movie
@@ -38,6 +39,16 @@ class MoviesController < ApplicationController
         only: [:title, :overview, :release_date, :inventory],
         methods: [:available_inventory]
         )
+=======
+    @movie = Movie.new(movie_params)
+
+    if @movie.save
+      # render(status: :ok,
+      #        json: @movie.as_json(
+      #          only: [:title, :overview, :release_date, :inventory],
+      #          methods: [:available_inventory],
+      #        ))
+>>>>>>> eb92804e59afe8ea57f1d54a5c71918660c06c78
     else
       render status: :bad_request, json: { errors: @movie.errors.messages}
     end
