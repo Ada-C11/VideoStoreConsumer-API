@@ -1,4 +1,4 @@
-# require "pry"
+
 
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
@@ -36,12 +36,12 @@ class MoviesController < ApplicationController
     end
 
     successful = movie.save
-    # binding.pry
+
     if successful
       render(
         status: :ok,
         json: movie.as_json(
-          only: [:title, :overview, :release_date, :image_url, :id],
+          only: [:title, :overview, :release_date, :image_url, :id, :inventory, :external_id],
         ),
       )
     else
@@ -58,7 +58,7 @@ class MoviesController < ApplicationController
 
   def require_movie
     @movie = Movie.find_by(title: params[:title])
-    # binding.pry
+
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
