@@ -29,7 +29,6 @@ class MoviesController < ApplicationController
       @movie.inventory = 5
     else
       @movie.inventory += 1
-      render status: :ok
     end
 
     if @movie.save
