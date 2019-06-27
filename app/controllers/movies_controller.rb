@@ -22,8 +22,8 @@ class MoviesController < ApplicationController
   end
 
   def create
-    @movie = Movie.find_by(params[:title]) 
-    
+    @movie = Movie.find_by(title: params[:title]) 
+
     if !@movie
       @movie = Movie.new(movie_params)
       @movie.inventory = 5
