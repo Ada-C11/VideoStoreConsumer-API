@@ -29,15 +29,15 @@ class MoviesController < ApplicationController
       @movie.inventory = 5
     else
       @movie.inventory += 1
+      render status: :ok
     end
 
     if @movie.save
-      render( status: :ok, 
-        json: @movie.to_json(
-          only: [:title, :overview, :release_date, :inventory],
-          methods: [:available_inventory]
+      render status: :ok,
+      json: @movie.as_json(
+        only: [:title, :overview, :release_date, :inventory],
+        methods: [:available_inventory]
         )
-      )
     else
       render status: :bad_request, json: { errors: @movie.errors.messages}
     end
