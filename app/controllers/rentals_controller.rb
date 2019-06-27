@@ -45,7 +45,6 @@ class RentalsController < ApplicationController
   end
 
 private
-  # TODO: make error payloads arrays
   def require_movie
     @movie = Movie.find_by title: params[:title]
     unless @movie
