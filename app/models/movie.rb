@@ -6,6 +6,20 @@ class Movie < ApplicationRecord
     self.inventory - Rental.where(movie: self, returned: false).length
   end
 
+  def self.does_movie_exist(external_id)
+    existingMovie = Movie.find_by(external_id: external_id)
+    puts "existingMovie: #{existingMovie}"
+
+    if existingMovie
+      existingMovie.inventory += 1
+      existingMovie.save
+      return true
+    end
+
+    return false
+
+  end
+
   def image_url
     orig_value = read_attribute :image_url
     if !orig_value
