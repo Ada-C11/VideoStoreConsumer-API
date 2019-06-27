@@ -4,7 +4,9 @@ class Movie < ApplicationRecord
 
   validates :title, :inventory, presence: true
 
-  validates :inventory, numericality: {only_integer: true}
+  validates :external_id, uniqueness: true
+
+  validates :inventory, numericality: { only_integer: true }
 
   def available_inventory
     self.inventory - Rental.where(movie: self, returned: false).length
