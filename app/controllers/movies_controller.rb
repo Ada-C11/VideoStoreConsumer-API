@@ -22,9 +22,8 @@ class MoviesController < ApplicationController
   end
 
   def create
-<<<<<<< HEAD
     @movie = Movie.find_by(params[:title]) 
-
+    
     if !@movie
       @movie = Movie.new(movie_params)
       @movie.inventory = 5
@@ -39,16 +38,6 @@ class MoviesController < ApplicationController
         only: [:title, :overview, :release_date, :inventory],
         methods: [:available_inventory]
         )
-=======
-    @movie = Movie.new(movie_params)
-
-    if @movie.save
-      # render(status: :ok,
-      #        json: @movie.as_json(
-      #          only: [:title, :overview, :release_date, :inventory],
-      #          methods: [:available_inventory],
-      #        ))
->>>>>>> eb92804e59afe8ea57f1d54a5c71918660c06c78
     else
       render status: :bad_request, json: { errors: @movie.errors.messages}
     end
