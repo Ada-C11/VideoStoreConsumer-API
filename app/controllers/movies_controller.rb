@@ -11,14 +11,32 @@ class MoviesController < ApplicationController
     render status: :ok, json: data
   end
 
+  def create
+    movie = Movie.new(
+      title: params[:title],
+      overview: params[:overview],
+      release_date: params[:release_date],
+    )
+
+    if !Movie.find_by(title: movie.title)
+      if movie.save!
+        render status: :ok, json: {}
+      else
+        render status: :bad_request, json: {errors: movie.errors.messages}
+      end
+    else
+      render status: :no_content, json: {message: "Movie already added."}
+    end
+  end
+
   def show
     render(
       status: :ok,
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
-        methods: [:available_inventory]
-        )
-      )
+        methods: [:available_inventory],
+      ),
+    )
   end
 
   private
@@ -26,7 +44,7 @@ class MoviesController < ApplicationController
   def require_movie
     @movie = Movie.find_by(title: params[:title])
     unless @movie
-      render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
+      render status: :not_found, json: {errors: {title: ["No movie with title #{params["title"]}"]}}
     end
   end
 end
