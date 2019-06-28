@@ -16,6 +16,7 @@ class MoviesController < ApplicationController
       title: params[:title],
       overview: params[:overview],
       release_date: params[:release_date],
+      image_url: params[:image_url],
     )
 
     if !Movie.find_by(title: movie.title)
