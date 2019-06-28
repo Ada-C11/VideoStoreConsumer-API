@@ -30,7 +30,7 @@ class MoviesController < ApplicationController
     successful = movies[0].save
     if successful
       puts "#{params[:title]} Added to the library!"
-      return Movie.last.id
+      render status: :ok, json: Movie.last
     else
       puts "FAILED TO SAVE #{params[:title]}"
     end
