@@ -25,10 +25,6 @@ class MoviesController < ApplicationController
   end
 
   def create
-    # get external API query (movie object)
-    # pass it in to Moviewrapper.construct_movie(API_movie)
-    # if it saves, return a 200 ok
-    # if it doesnt, return a bad message
     movie = Movie.new(movie_params)
     better_image = movie.image_url.gsub("https://image.tmdb.org/t/p/w185", "")
     movie.image_url = better_image
