@@ -60,3 +60,5 @@ group :test do
   gem 'minitest-rails'
   gem 'minitest-reporters'
 end
+
+gem "rb-readline"

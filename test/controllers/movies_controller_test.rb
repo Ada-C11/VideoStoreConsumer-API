@@ -1,11 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class MoviesControllerTest < ActionDispatch::IntegrationTest
   describe "index" do
     it "returns a JSON array" do
       get movies_url
       assert_response :success
-      @response.headers['Content-Type'].must_include 'json'
+      @response.headers["Content-Type"].must_include "json"
 
       # Attempt to parse
       data = JSON.parse @response.body
@@ -46,7 +46,7 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
     it "Returns a JSON object" do
       get movie_url(title: movies(:one).title)
       assert_response :success
-      @response.headers['Content-Type'].must_include 'json'
+      @response.headers["Content-Type"].must_include "json"
 
       # Attempt to parse
       data = JSON.parse @response.body
@@ -72,7 +72,27 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
       data = JSON.parse @response.body
       data.must_include "errors"
       data["errors"].must_include "title"
+    end
+  end
 
+  describe "create" do
+    let(:movie) {
+      {
+        "title" => "Steph's Movie",
+        "overview" => "Steph's Movie",
+        "release_date" => "1/2/13",
+      }
+    }
+    it "creates a new movie" do
+      expect { post movies_path, params: movie }.must_change "Movie.count", 1
+      must_respond_with :success
+
+      body = JSON.parse(response.body)
+      movie = Movie.find(body["id"].to_i)
+
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "id"
+      expect(movie.title).must_equal movie["title"]
     end
   end
 end
