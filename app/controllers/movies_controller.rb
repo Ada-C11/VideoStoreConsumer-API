@@ -1,6 +1,21 @@
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
+  
+def new
+    @movie = Movie.new
+  end
 
+  def create
+    @movie = Movie.new
+
+    @movie.title = params["title"]
+    @movie.overview = params["overview"]
+    @movie.image_url = params["image_url"]
+    @movie.release_date = params["release_date"]
+
+    @movie.save
+  end
+  
   def index
     if params[:query]
       data = MovieWrapper.search(params[:query])
