@@ -8,9 +8,12 @@ class RentalsController < ApplicationController
 
     if rental.save
       render status: :ok, json: {}
+      # PUT SOMETHING USEFUL IN ^^^ THE RESPONSE BODY
     else
       render status: :bad_request, json: { errors: rental.errors.messages }
     end
+
+    # decrease inventory quantity?
   end
 
   def check_in
@@ -24,7 +27,7 @@ class RentalsController < ApplicationController
     end
     rental.returned = true
     if rental.save
-      render status: :ok, json: {}
+      render status: :ok, json: {movie: @movie.title, customer: @customer.name, due: params[:due_date]}
     else
       render status: :bad_request, json: { errors: rental.errors.messages }
     end
