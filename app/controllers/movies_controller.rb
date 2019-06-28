@@ -15,10 +15,31 @@ class MoviesController < ApplicationController
     render(
       status: :ok,
       json: @movie.as_json(
+        only: [:id, :title, :overview, :release_date, :inventory, :image_url, :external_id],
+        methods: [:available_inventory],
+      ),
+    )
+  end
+
+  def create
+    @movie = Movie.find_by(title: params[:title]) 
+
+    if !@movie
+      @movie = Movie.new(movie_params)
+      @movie.inventory = 5
+    else
+      @movie.inventory += 1
+    end
+
+    if @movie.save
+      render status: :ok,
+      json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
         methods: [:available_inventory]
         )
-      )
+    else
+      render status: :bad_request, json: { errors: @movie.errors.messages}
+    end
   end
 
   private
@@ -28,5 +49,10 @@ class MoviesController < ApplicationController
     unless @movie
       render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
     end
+  end
+
+  def movie_params
+    # allow params
+    params.permit(:title, :overview, :release_date, :inventory, :image_url, :external_id)
   end
 end
