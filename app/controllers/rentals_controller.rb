@@ -7,10 +7,12 @@ class RentalsController < ApplicationController
     rental = Rental.new(movie: @movie, customer: @customer, due_date: params[:due_date])
 
     if rental.save
-      render status: :ok, json: {}
+      render status: :ok, json: {title: params[:title], customer_id: params[:customer_id], due_date: params[:due_date]}
     else
       render status: :bad_request, json: { errors: rental.errors.messages }
     end
+
+    # decrease inventory quantity?
   end
 
   def check_in
@@ -24,7 +26,7 @@ class RentalsController < ApplicationController
     end
     rental.returned = true
     if rental.save
-      render status: :ok, json: {}
+      render status: :ok, json: {movie: @movie.title, customer: @customer.name, due: params[:due_date]}
     else
       render status: :bad_request, json: { errors: rental.errors.messages }
     end
