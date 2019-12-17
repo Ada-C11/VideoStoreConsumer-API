@@ -12,7 +12,7 @@ class MovieWrapper
     response =  HTTParty.get(url)
     if response["total_results"] == 0
       return []
-    else
+    elsif response["results"]
       movies = response["results"].map do |result|
         self.construct_movie(result)
       end
